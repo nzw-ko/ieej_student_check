@@ -1,0 +1,28 @@
+name: Daily URL Checker
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch: # 手動実行ボタン（デバッグに便利です）
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/checkout@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          TO_EMAIL: ${{ secrets.GMAIL_USER }} # 送信先も自分にする場合
+        run: python main.py
