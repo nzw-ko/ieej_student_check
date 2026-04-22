@@ -1,3 +1,26 @@
+import requests
+import smtplib
+from email.mime.text import MIMEText
+import os
+import time
+
+# 設定
+BASE_URL = "https://www.iee.jp/tokyo/202508{day}student/"
+GMAIL_USER = os.environ.get("GMAIL_USER")
+GMAIL_PASS = os.environ.get("GMAIL_PASS")
+TO_EMAIL = os.environ.get("TO_EMAIL")
+
+def send_email(found_urls):
+    body = "以下のページが見つかりました：\n\n" + "\n".join(found_urls)
+    msg = MIMEText(body)
+    msg["Subject"] = "【通知】学会リンクが更新されました"
+    msg["From"] = GMAIL_USER
+    msg["To"] = TO_EMAIL
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(GMAIL_USER, GMAIL_PASS)
+        server.send_message(msg)
+
 def check_all_links():
     found_urls = []
     
@@ -24,3 +47,6 @@ def check_all_links():
 
     if found_urls:
         send_email(found_urls)
+
+if __name__ == "__main__":
+    check_all_links()
