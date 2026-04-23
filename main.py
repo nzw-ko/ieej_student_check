@@ -10,10 +10,12 @@ GMAIL_USER = os.environ.get("GMAIL_USER")
 GMAIL_PASS = os.environ.get("GMAIL_PASS")
 TO_EMAIL = os.environ.get("TO_EMAIL")
 
-def send_email(found_urls):
+date = 0
+
+def send_email(found_urls, date):
     body = "以下のページが見つかりました：\n\n" + "\n".join(found_urls)
     msg = MIMEText(body)
-    msg["Subject"] = "【通知】学会リンクが更新されました"
+    msg["Subject"] = f"【学生研究発表会】開催日決定 8月{date}日"
     msg["From"] = GMAIL_USER
     msg["To"] = TO_EMAIL
 
@@ -38,6 +40,7 @@ def check_all_links():
             if response.status_code == 200:
                 print(f"MATCH: {url}")
                 found_urls.append(url)
+                date = i
             else:
                 # 301や302が返ってきた場合は「まだ準備中（リダイレクト）」と判断
                 print(f"Skipped ({day}): Status {response.status_code}")
@@ -46,7 +49,7 @@ def check_all_links():
             print(f"Error checking {day}: {e}")
 
     if found_urls:
-        send_email(found_urls)
+        send_email(found_urls, date)
 
 if __name__ == "__main__":
     check_all_links()
