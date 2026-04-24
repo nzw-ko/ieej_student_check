@@ -2,7 +2,7 @@ name: Daily URL Checker
 
 on:
   schedule:
-    - cron: '47 15 * * *'
+    - cron: '47 6 * * *'
   workflow_dispatch:
 
 jobs:
