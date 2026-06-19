@@ -5,7 +5,7 @@ import os
 import time
 
 # 設定
-BASE_URL = "https://www.iee.jp/tokyo/202608{day}student/"
+BASE_URL = "https://www.iee.jp/tokyo/202708{day}student/"
 GMAIL_USER = os.environ.get("GMAIL_USER")
 GMAIL_PASS = os.environ.get("GMAIL_PASS")
 TO_EMAIL = os.environ.get("TO_EMAIL")
